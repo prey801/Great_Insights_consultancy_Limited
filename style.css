@@ -12,7 +12,15 @@ body {
     color: #333;
     background-color: #f9f9f9; /* Light background for contrast */
 }
-
+.logo {
+    color: #FFD700; /* Gold */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    gap: 20px;
+}
 .container {
     width: 90%;
     max-width: 1100px;
@@ -283,9 +291,13 @@ footer p { margin-bottom: 5px; color: #ccc; }
 
 
 /* Animations - Basic Fade-in using AOS */
-/* AOS (Animate On Scroll) classes will be applied via JS.
-   You can customize these further or use other animation libraries.
-   Example:
+[data-aos] {
+    opacity: 0;
+    transition-property: opacity, transform;
+    transition-duration: 0.6s;
+    transition-timing-function: ease-in-out;
+    will-change: opacity, transform;
+}
    [data-aos="fade-up"] {
        opacity: 0;
        transform: translateY(20px);
@@ -295,7 +307,7 @@ footer p { margin-bottom: 5px; color: #ccc; }
        opacity: 1;
        transform: translateY(0);
    }
-*/
+
 
 
 /* Responsive Design */
@@ -343,4 +355,132 @@ footer p { margin-bottom: 5px; color: #ccc; }
         grid-template-columns: 1fr; /* Stack on smaller screens */
     }
     .contact-details { margin-top: 30px; }
+}
+/* === Previous Hero Styles (hero, hero-content, hero-text-content, etc.) remain largely the same === */
+/* Ensure the hero-content container is still a flex container for the columns */
+#hero .hero-content.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    width: 100%;
+}
+
+.hero-text-content {
+    flex: 1 1 55%; /* Adjust as needed */
+    text-align: left;
+    /* animation: slideInFromLeft 1s ease-out; (Keep or remove animation as preferred) */
+}
+
+/* NEW STYLES FOR IMAGES COLUMN AND IMAGES */
+.hero-images-column {
+    flex: 1 1 40%; /* Adjust as needed */
+    position: relative; /* Important for absolute positioning of images if needed for overlap */
+    min-height: 350px; /* Ensure the column has some height for images to sit in, adjust as needed */
+    display: flex; /* Use flex to help center the images if they aren't overlapping */
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Space between images */
+}
+
+.hero-image-alternating {
+    width: 100%;
+    max-width: 280px; /* Adjust size */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    object-fit: cover;
+    border: 3px solid #FFD700; /* Optional gold border */
+    position: absolute; /* Position images on top of each other for fade effect */
+    transition: opacity 0.7s ease-in-out, transform 0.5s ease-in-out; /* Smooth transitions */
+    opacity: 0; /* Initially hide all images */
+}
+
+/* Apply tilts - you can have different tilts or the same */
+#heroImage1 {
+    transform: rotate(-5deg); /* Tilt for the first image */
+}
+
+#heroImage2 {
+    transform: rotate(4deg);  /* Tilt for the second image */
+}
+
+/* Class to make an image visible and bring it to the front */
+.hero-image-alternating.is-visible {
+    opacity: 1;
+    z-index: 10; /* Ensure the visible image is on top */
+}
+
+/* Hover effect for a bit of interaction (optional) */
+.hero-image-alternating:hover {
+    transform: scale(1.05) rotate(0deg); /* Straighten and slightly enlarge on hover */
+    z-index: 11; /* Ensure hovered image comes to front */
+}
+
+.hero-image {
+    width: 100%; /* Make images take the full width of their container */
+    max-width: 300px; /* Max width for each image, adjust as needed */
+    height: auto;
+    border-radius: 8px; /* Slightly rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    object-fit: cover; /* Ensures images cover the area without distortion */
+    border: 3px solid #FFD700; /* Optional gold border */
+}
+/* === Responsive adjustments === */
+@media (max-width: 992px) {
+    #hero .hero-content.container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hero-text-content {
+        text-align: center;
+        margin-bottom: 40px;
+        order: 2; /* Text below images */
+    }
+    .hero-images-column {
+        order: 1; /* Images above text */
+        min-height: 300px; /* Adjust height for stacked layout */
+        width: 100%; /* Take full width */
+        margin-bottom: 30px;
+    }
+    .hero-image-alternating {
+        max-width: 220px; /* Slightly smaller images */
+        position: relative; /* Stack them normally or adjust for desired effect */
+        /* If stacking normally, remove absolute positioning and manage opacity differently or show both */
+        /* For simplicity in stacking, let's make them relative and initially visible */
+        /* position: relative;
+        opacity: 1;
+        margin: 10px;  You might want to show both images side-by-side or stacked in mobile view */
+    }
+    /* On smaller screens, if you want both images visible and side-by-side without alternating: */
+    .hero-images-column {
+        display: flex;
+        flex-direction: row; /* Side by side if space */
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    .hero-image-alternating { /* Adjust for side-by-side on mobile */
+        position: relative; /* Override absolute */
+        opacity: 1; /* Show both */
+        max-width: 180px; /* Make them smaller to fit side-by-side */
+        /* transform: rotate(0deg); /* Optionally remove tilt on mobile for simplicity */
+    }
+    #heroImage1 { transform: rotate(-3deg); } /* Less tilt on mobile */
+    #heroImage2 { transform: rotate(3deg); }
+
+}
+
+@media (max-width: 576px) {
+    .hero-image-alternating {
+        max-width: 150px; /* Even smaller for very small screens */
+         /* If stacking is preferred on very small screens: */
+        /* flex-basis: 80%;
+        margin-bottom: 15px; */
+    }
+     .hero-images-column {
+        flex-direction: column; /* Stack them vertically on very small screens */
+        align-items: center;
+    }
 }
