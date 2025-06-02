@@ -485,15 +485,21 @@ footer p { margin-bottom: 5px; color: #ccc; }
 
 }
 
-@media (max-width: 576px) {
+/* Hide hero images on mobile */
+@media (max-width: 768px) {
     .hero-image-alternating {
-        max-width: 150px; /* Even smaller for very small screens */
-         /* If stacking is preferred on very small screens: */
-        /* flex-basis: 80%;
-        margin-bottom: 15px; */
+        display: none;
     }
-     .hero-images-column {
-        flex-direction: column; /* Stack them vertically on very small screens */
-        align-items: center;
+}
+
+/* Ensure hero images are visible and styled on larger screens */
+@media (min-width: 769px) {
+    .hero-image-alternating {
+        display: block;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+    .hero-image-alternating.is-visible {
+        opacity: 1;
     }
 }

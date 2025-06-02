@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-
-    // Initialize AOS (Animate On Scroll)
+    // Initialize AOS
     AOS.init({
-        duration: 800, // values from 0 to 3000, with step 50ms
-        once: true,    // whether animation should happen only once - while scrolling down
-        offset: 100,   // offset (in px) from the original trigger point
+        duration: 800,
+        once: true,
+        offset: 100,
     });
 
     // Mobile Menu Toggle
@@ -14,20 +13,19 @@ document.addEventListener('DOMContentLoaded', function() {
     if (mobileMenuToggle && navLinks) {
         mobileMenuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-            mobileMenuToggle.classList.toggle('active'); // For hamburger animation
+            mobileMenuToggle.classList.toggle('active');
         });
     }
 
     // Smooth scrolling for nav links & close mobile menu on click
     document.querySelectorAll('header .nav-links a').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
             const targetElement = document.querySelector(targetId);
 
             if (targetElement) {
-                // Calculate offset for fixed header
-                const headerOffset = document.querySelector('header')?.offsetHeight || 70; // Get header height or default
+                const headerOffset = document.querySelector('header')?.offsetHeight || 70;
                 const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
                 const offsetPosition = elementPosition - headerOffset;
 
@@ -36,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth'
                 });
 
-                // Close mobile menu if open
                 if (navLinks && navLinks.classList.contains('active')) {
                     navLinks.classList.remove('active');
                     if (mobileMenuToggle) {
@@ -48,18 +45,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Active link highlighting on scroll
-    const sections = document.querySelectorAll('main section[id]'); // Ensure sections have IDs
+    const sections = document.querySelectorAll('main section[id]');
     const navLiAnchors = document.querySelectorAll('header .nav-links li a');
 
     function changeActiveLink() {
         let index = sections.length;
         const headerHeight = document.querySelector('header')?.offsetHeight || 70;
 
-        while(--index && window.pageYOffset + headerHeight + 50 < sections[index].offsetTop) {} // 50 is a small buffer
+        while (--index && window.pageYOffset + headerHeight + 50 < sections[index].offsetTop) {}
 
         navLiAnchors.forEach((link) => link.classList.remove('active'));
 
-        // Check if the found section's ID matches a nav link's href
         if (sections[index]) {
             const activeSectionId = sections[index].id;
             const correspondingLink = document.querySelector(`header .nav-links a[href="#${activeSectionId}"]`);
@@ -67,56 +63,73 @@ document.addEventListener('DOMContentLoaded', function() {
                 correspondingLink.classList.add('active');
             }
         } else if (window.pageYOffset < (sections[0]?.offsetTop || 0) - headerHeight) {
-            // If near the top before the first section, highlight "Home" or the first link
-             const homeLink = document.querySelector('header .nav-links a[href="#hero"]'); // Assuming hero is the first section
-             if (homeLink) homeLink.classList.add('active');
+            const homeLink = document.querySelector('header .nav-links a[href="#hero"]');
+            if (homeLink) homeLink.classList.add('active');
         }
     }
 
-    // Initial call to set active link on page load
     if (sections.length > 0 && navLiAnchors.length > 0) {
         changeActiveLink();
         window.addEventListener('scroll', changeActiveLink);
     }
 
-
     // Hero Image Alternating Animation
     const heroImages = document.querySelectorAll('.hero-image-alternating');
     let currentHeroImageIndex = 0;
-    const heroAnimationInterval = 4000; // Time in milliseconds (e.g., 4 seconds)
+    const heroAnimationInterval = 4000;
+    let animationInterval = null;
 
     function showNextHeroImage() {
-        if (heroImages.length === 0) return; // No images to animate
+        if (heroImages.length === 0) return;
 
-        // Hide current image
         heroImages[currentHeroImageIndex].classList.remove('is-visible');
-
-        // Move to next image index
         currentHeroImageIndex = (currentHeroImageIndex + 1) % heroImages.length;
-
-        // Show next image
         heroImages[currentHeroImageIndex].classList.add('is-visible');
     }
 
-    // Initial setup: show the first image
-    if (heroImages.length > 0) {
-        heroImages[0].classList.add('is-visible');
+    // Check if the device is mobile (max-width: 768px)
+    const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+
+    // Debounce function for resize event
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
     }
 
-    // Start the animation if there's more than one image
-    if (heroImages.length > 1) {
-        // Check if we are not on a small screen where images might be displayed differently
-        // This assumes you have CSS that changes the layout for .hero-image-alternating on smaller screens
-        // and you might not want the JS animation to run then.
-        // For simplicity, we'll let it run, but you could add a window.matchMedia check.
-        setInterval(showNextHeroImage, heroAnimationInterval);
+    // Initialize hero images based on device
+    function initializeHeroImages() {
+        if (animationInterval) {
+            clearInterval(animationInterval);
+            animationInterval = null;
+        }
+
+        if (heroImages.length > 0 && !isMobile()) {
+            heroImages.forEach(img => img.classList.remove('is-visible'));
+            heroImages[0].classList.add('is-visible');
+            if (heroImages.length > 1) {
+                animationInterval = setInterval(showNextHeroImage, heroAnimationInterval);
+            }
+        }
     }
 
+    // Initial call
+    initializeHeroImages();
+
+    // Handle window resize with debouncing
+    window.addEventListener('resize', debounce(() => {
+        initializeHeroImages();
+    }, 250));
 
     // Set current year in footer
     const currentYearSpan = document.getElementById('currentYear');
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
     }
-
 });
