@@ -74,23 +74,70 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Hero Image Alternating Animation
-    const heroImages = document.querySelectorAll('.hero-image-alternating');
+    const heroImages = document.querySelectorAll('.hero-images-column .hero-image');
     let currentHeroImageIndex = 0;
-    const heroAnimationInterval = 4000;
+    const heroAnimationInterval = 4000; // Match CSS 4s per image
     let animationInterval = null;
 
     function showNextHeroImage() {
         if (heroImages.length === 0) return;
 
-        heroImages[currentHeroImageIndex].classList.remove('is-visible');
+        // Reset all images
+        heroImages.forEach((img, index) => {
+            img.style.opacity = '0';
+            img.style.zIndex = 6 - index; // Preserve original z-index order
+            img.style.transform = 'scale(0.95)';
+            img.classList.remove('is-visible');
+        });
+
+        // Show current image
+        const currentImage = heroImages[currentHeroImageIndex];
+        currentImage.style.opacity = '1';
+        currentImage.style.zIndex = '10';
+        currentImage.style.transform = 'scale(1)';
+        currentImage.classList.add('is-visible');
+
         currentHeroImageIndex = (currentHeroImageIndex + 1) % heroImages.length;
-        heroImages[currentHeroImageIndex].classList.add('is-visible');
     }
 
-    // Check if the device is mobile (max-width: 768px)
-    const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+    // Disable AOS for hero images to prevent conflicts
+    heroImages.forEach(img => {
+        img.removeAttribute('data-aos');
+        img.removeAttribute('data-aos-delay');
+    });
 
-    // Debounce function for resize event
+    // Initialize hero images
+    function initializeHeroImages() {
+        if (animationInterval) {
+            clearInterval(animationInterval);
+            animationInterval = null;
+        }
+
+        if (heroImages.length > 0) {
+            // Reset all images
+            heroImages.forEach(img => {
+                img.style.opacity = '0';
+                img.style.transform = 'scale(0.95)';
+                img.classList.remove('is-visible');
+            });
+
+            // Show first image
+            heroImages[0].style.opacity = '1';
+            heroImages[0].style.zIndex = '10';
+            heroImages[0].style.transform = 'scale(1)';
+            heroImages[0].classList.add('is-visible');
+
+            // Start cycle if multiple images
+            if (heroImages.length > 1) {
+                animationInterval = setInterval(showNextHeroImage, heroAnimationInterval);
+            }
+        }
+    }
+
+    // Initial call
+    initializeHeroImages();
+
+    // Handle window resize with debouncing
     function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -103,26 +150,6 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // Initialize hero images based on device
-    function initializeHeroImages() {
-        if (animationInterval) {
-            clearInterval(animationInterval);
-            animationInterval = null;
-        }
-
-        if (heroImages.length > 0 && !isMobile()) {
-            heroImages.forEach(img => img.classList.remove('is-visible'));
-            heroImages[0].classList.add('is-visible');
-            if (heroImages.length > 1) {
-                animationInterval = setInterval(showNextHeroImage, heroAnimationInterval);
-            }
-        }
-    }
-
-    // Initial call
-    initializeHeroImages();
-
-    // Handle window resize with debouncing
     window.addEventListener('resize', debounce(() => {
         initializeHeroImages();
     }, 250));
@@ -131,5 +158,52 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentYearSpan = document.getElementById('currentYear');
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
+    }
+
+    // Scroll Container (unchanged)
+    const scrollContainer = document.querySelector('.hero-images-scroll-container');
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    
+    if (scrollContainer) {
+        scrollContainer.addEventListener('scroll', function() {
+            this.classList.add('scrolling');
+            clearTimeout(this.scrollTimeout);
+            
+            this.scrollTimeout = setTimeout(() => {
+                this.classList.remove('scrolling');
+            }, 1000);
+        });
+        
+        let autoScroll = true;
+        let scrollInterval;
+        
+        function startAutoScroll() {
+            scrollInterval = setInterval(() => {
+                if (autoScroll) {
+                    const nextPos = scrollContainer.scrollTop + 1;
+                    const maxPos = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+                    
+                    if (nextPos >= maxPos) {
+                        scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        scrollContainer.scrollBy({ top: 1, behavior: 'auto' });
+                    }
+                }
+            }, 50);
+        }
+        
+        scrollContainer.addEventListener('mousedown', () => autoScroll = false);
+        scrollContainer.addEventListener('touchstart', () => autoScroll = false);
+        
+        document.addEventListener('mouseup', () => {
+            autoScroll = true;
+            if (!scrollInterval) startAutoScroll();
+        });
+        document.addEventListener('touchend', () => {
+            autoScroll = true;
+            if (!scrollInterval) startAutoScroll();
+        });
+        
+        startAutoScroll();
     }
 });
