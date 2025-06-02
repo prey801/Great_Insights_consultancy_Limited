@@ -82,11 +82,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function showNextHeroImage() {
         if (heroImages.length === 0) return;
 
+        const isMobile = window.matchMedia('(max-width: 992px)').matches;
+
         // Reset all images
         heroImages.forEach((img, index) => {
             img.style.opacity = '0';
-            img.style.zIndex = 6 - index; // Preserve original z-index order
+            img.style.zIndex = 6 - index; // Preserve CSS z-index order
             img.style.transform = 'scale(0.95)';
+            if (isMobile) {
+                img.style.display = 'none'; // Hide on mobile
+            }
             img.classList.remove('is-visible');
         });
 
@@ -95,12 +100,15 @@ document.addEventListener('DOMContentLoaded', function() {
         currentImage.style.opacity = '1';
         currentImage.style.zIndex = '10';
         currentImage.style.transform = 'scale(1)';
+        if (isMobile) {
+            currentImage.style.display = 'block'; // Show only current image
+        }
         currentImage.classList.add('is-visible');
 
         currentHeroImageIndex = (currentHeroImageIndex + 1) % heroImages.length;
     }
 
-    // Disable AOS for hero images to prevent conflicts
+    // Disable AOS for hero images
     heroImages.forEach(img => {
         img.removeAttribute('data-aos');
         img.removeAttribute('data-aos-delay');
@@ -114,10 +122,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (heroImages.length > 0) {
+            const isMobile = window.matchMedia('(max-width: 992px)').matches;
+
             // Reset all images
             heroImages.forEach(img => {
                 img.style.opacity = '0';
                 img.style.transform = 'scale(0.95)';
+                if (isMobile) {
+                    img.style.display = 'none';
+                }
                 img.classList.remove('is-visible');
             });
 
@@ -125,6 +138,9 @@ document.addEventListener('DOMContentLoaded', function() {
             heroImages[0].style.opacity = '1';
             heroImages[0].style.zIndex = '10';
             heroImages[0].style.transform = 'scale(1)';
+            if (isMobile) {
+                heroImages[0].style.display = 'block';
+            }
             heroImages[0].classList.add('is-visible');
 
             // Start cycle if multiple images
