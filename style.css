@@ -72,9 +72,7 @@ header nav {
   color: #fff;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  height: 100%;
-  gap: 20px;
+  gap: 10px;
 }
 
 .logo .logo-consultancy {
@@ -97,8 +95,69 @@ header nav {
   transition: color 0.3s ease;
 }
 
-.nav-links a:hover, .nav-links a.active {
+.nav-links a:hover, 
+.nav-links a.active {
   color: #FFD700;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .logo {
+    font-size: 1.5em;
+    gap: 8px;
+  }
+  
+  .logo .logo-consultancy {
+    display: none;
+  }
+  
+  .nav-links li {
+    margin-left: 15px;
+  }
+}
+
+/* Mobile menu toggle styles (if you're using this functionality) */
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 21px;
+  }
+  
+  .menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: #fff;
+    border-radius: 3px;
+  }
+  
+  .nav-links {
+    display: none; /* Hidden by default on mobile */
+  }
+  
+  /* Add this if you want the menu to show when active */
+  .nav-links.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: #0A2463;
+    padding: 20px 0;
+  }
+  
+  .nav-links.active li {
+    margin: 10px 0;
+    text-align: center;
+  }
 }
 
 /* Hamburger Menu for Mobile */
@@ -315,6 +374,9 @@ header nav {
         margin: 10px 0;
         animation: heroImageCycleMobile 24s infinite !important;
     }
+   .contact-form {
+        width: 500px;
+    }
 
     @keyframes heroImageCycleMobile {
         0% { opacity: 0; transform: scale(0.95); }
@@ -474,58 +536,140 @@ header nav {
 #contact {
   background-color: #0A2463;
   color: #fff;
+  padding: 4rem 0;
 }
 
 #contact h2, #contact h3 {
   color: #fff;
+  margin-bottom: 1.5rem;
 }
 
 #contact p {
-  color: #eee;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
 }
 
 #contact a {
   color: #FFD700;
+  transition: color 0.3s ease;
+}
+
+#contact a:hover {
+  color: #fff;
 }
 
 .contact-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin-top: 30px;
+  gap: 3rem;
+  margin-top: 2rem;
 }
 
-.contact-form input, .contact-form textarea {
+/* Form Styling */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-input, .form-textarea {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 1em;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
-.contact-form input:focus, .contact-form textarea:focus {
+.form-input::placeholder, .form-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.form-input:focus, .form-textarea:focus {
   outline: none;
   border-color: #FFD700;
+  box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
-.contact-form textarea {
+.form-textarea {
   resize: vertical;
+  min-height: 150px;
 }
 
-.contact-details p {
-  margin-bottom: 10px;
+.cta-button {
+  background-color: #FFD700;
+  color: #0A2463;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
 }
 
-.map-placeholder {
-  height: 200px;
-  background-color: #33528a;
-  border-radius: 5px;
+.cta-button:hover {
+  background-color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .cta-button {
+    width: 100%;
+  }
+}
+
+/* Form Validation Styling */
+.form-input:invalid:not(:placeholder-shown) {
+  border-color: #ff6b6b;
+}
+
+.form-input:valid:not(:placeholder-shown) {
+  border-color: #51cf66;
+}
+
+
+.map-container {
+  width: 100%;
   margin-top: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-style: italic;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid goldenrod;
+}
+
+.responsive-map {
+  width: 100%;
+  height: 300px; /* Default height for larger screens */
+  border: none;
+}
+
+/* Adjust height for medium screens */
+@media (max-width: 768px) {
+  .responsive-map {
+    height: 250px;
+  }
+}
+
+/* Adjust height for small screens */
+@media (max-width: 480px) {
+  .responsive-map {
+    height: 200px;
+  }
 }
 
 /* Footer */
