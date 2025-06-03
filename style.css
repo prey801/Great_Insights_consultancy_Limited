@@ -304,13 +304,13 @@ header nav {
 @media (max-width: 992px) {
     .hero-images-column {
         perspective: none;
-        max-width: 220px;
+        max-width: 500px;
         height: auto;
     }
 
     .hero-image {
         position: relative;
-        max-width: 220px;
+        max-width: 500px;
         height: auto;
         margin: 10px 0;
         animation: heroImageCycleMobile 24s infinite !important;
