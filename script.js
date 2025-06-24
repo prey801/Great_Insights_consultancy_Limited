@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Redirect to mobile.html for mobile devices
+    if (/Mobi|Android/i.test(navigator.userAgent) || window.innerWidth <= 992) {
+        window.location.href = 'mobile.html';
+        return; // Stop further execution if redirected
+    }
+
     // Initialize AOS
     AOS.init({
         duration: 800,
@@ -87,10 +93,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset all images
         heroImages.forEach((img, index) => {
             img.style.opacity = '0';
-            img.style.zIndex = 6 - index; // Preserve CSS z-index order
+            img.style.zIndex = 6 - index;
             img.style.transform = 'scale(0.95)';
             if (isMobile) {
-                img.style.display = 'none'; // Hide on mobile
+                img.style.display = 'none';
             }
             img.classList.remove('is-visible');
         });
@@ -101,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentImage.style.zIndex = '10';
         currentImage.style.transform = 'scale(1)';
         if (isMobile) {
-            currentImage.style.display = 'block'; // Show only current image
+            currentImage.style.display = 'block';
         }
         currentImage.classList.add('is-visible');
 
@@ -174,52 +180,5 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentYearSpan = document.getElementById('currentYear');
     if (currentYearSpan) {
         currentYearSpan.textContent = new Date().getFullYear();
-    }
-
-    // Scroll Container (unchanged)
-    const scrollContainer = document.querySelector('.hero-images-scroll-container');
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    
-    if (scrollContainer) {
-        scrollContainer.addEventListener('scroll', function() {
-            this.classList.add('scrolling');
-            clearTimeout(this.scrollTimeout);
-            
-            this.scrollTimeout = setTimeout(() => {
-                this.classList.remove('scrolling');
-            }, 1000);
-        });
-        
-        let autoScroll = true;
-        let scrollInterval;
-        
-        function startAutoScroll() {
-            scrollInterval = setInterval(() => {
-                if (autoScroll) {
-                    const nextPos = scrollContainer.scrollTop + 1;
-                    const maxPos = scrollContainer.scrollHeight - scrollContainer.clientHeight;
-                    
-                    if (nextPos >= maxPos) {
-                        scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
-                    } else {
-                        scrollContainer.scrollBy({ top: 1, behavior: 'auto' });
-                    }
-                }
-            }, 50);
-        }
-        
-        scrollContainer.addEventListener('mousedown', () => autoScroll = false);
-        scrollContainer.addEventListener('touchstart', () => autoScroll = false);
-        
-        document.addEventListener('mouseup', () => {
-            autoScroll = true;
-            if (!scrollInterval) startAutoScroll();
-        });
-        document.addEventListener('touchend', () => {
-            autoScroll = true;
-            if (!scrollInterval) startAutoScroll();
-        });
-        
-        startAutoScroll();
     }
 });
