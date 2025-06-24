@@ -235,123 +235,151 @@ header nav {
   transform: translateY(-3px);
 }
 
-/* Hero Section - Enhanced with Multiple Effects */
+/* Hero Section - Full Viewport with Button Below */
+#hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0; /* Add some vertical padding */
+}
+
+.hero-content.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 2rem; /* Space between images and button */
+}
+
 .hero-images-column {
-    flex: 1 1 40%;
     position: relative;
-    min-height: 350px;
-    max-width: 400px;
-    height: 400px;
+    width: 100%;
+    max-width: 1200px;
+    height: 70vh; /* Adjust based on your needs */
+    margin: 0 auto;
+    perspective: 1000px;
+}
+
+#hero {
+    background: linear-gradient(rgba(10, 36, 99, 0.8), rgba(10, 36, 99, 0.8)), url('hero-bg.jpg') no-repeat center center/cover;
+    color: #fff;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 1000px; /* For 3D effects */
+    text-align: center;
+    padding: 2rem 0;
+    padding-top: 80px;
+    background-color: #0A2463; /* Fallback */
 }
 
+.hero-content.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 2rem;
+    padding: 30px;
+}
+
+.hero-images-column {
+    position: relative;
+    width: 100%;
+    max-width: 1200px; /* Maximum width for larger screens */
+    height: 70vh; /* Adjust based on design needs */
+    margin: 0 auto;
+    perspective: 1000px;
+    overflow: hidden; /* Prevent overflow */
+    border-radius: 10px;
+    padding: 30px;
+}
+
+/* Hero Images */
 .hero-image {
     position: absolute;
-    width: 100%;
-    max-width: 300px;
-    height: 100%;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    object-fit: cover;
-    border: 3px solid var(--secondary-color);
-    opacity: 0;
-    transform-style: preserve-3d;
-    will-change: transform, opacity, box-shadow;
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    filter: brightness(0.95);
-}
+    width: 100%; /* Fit the container width */
+    height: 100%; /* Fit the container height */
+    object-fit: cover; /* Ensure images scale without distortion */
+    top: 0;
+    left: 0;
+    opacity: 0; /* Initial state for animations */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    border-radius: 10px; /* Rounded corners for aesthetics */
+    
+  }
 
-/* Individual Image Animations with Different Effects */
-@keyframes imageFloat {
-    0%, 100% { transform: translateY(0) rotateZ(0deg); }
-    50% { transform: translateY(-10px) rotateZ(1deg); }
-}
-
-@keyframes imageSway {
-    0%, 100% { transform: rotateZ(-1deg); }
-    50% { transform: rotateZ(1deg); }
-}
-
-@keyframes imagePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-}
-
-/* Varied Animation Assignments */
+/* Initial State for First Image */
 .hero-image:nth-child(1) {
-    animation: heroImageCycle 24s infinite 0s,
-               imageFloat 8s infinite 0s;
-    transform-origin: center bottom;
-    z-index: 6;
+    opacity: 1;
+    transform: scale(1);
 }
 
-.hero-image:nth-child(2) {
-    animation: heroImageCycle 24s infinite 4s,
-               imageSway 6s infinite 1s;
-    transform-origin: left center;
-    z-index: 5;
+/* Hero CTA */
+.hero-cta-container {
+    text-align: center;
+    margin-top: 2rem;
+    z-index: 10;
+    position: relative;
 }
 
-.hero-image:nth-child(3) {
-    animation: heroImageCycle 24s infinite 8s,
-               imagePulse 7s infinite 2s;
-    z-index: 4;
-}
-
-.hero-image:nth-child(4) {
-    animation: heroImageCycle 24s infinite 12s,
-               imageFloat 9s infinite 3s;
-    transform-origin: right center;
-    z-index: 3;
-}
-
-.hero-image:nth-child(5) {
-    animation: heroImageCycle 24s infinite 16s,
-               imageSway 5s infinite 4s;
-    z-index: 2;
-}
-
-.hero-image:nth-child(6) {
-    animation: heroImageCycle 24s infinite 20s,
-               imagePulse 6.5s infinite 5s;
-    transform-origin: center top;
-    z-index: 1;
-}
-
-/* Enhanced Hover Effect */
-.hero-image:hover {
-    transform: scale(1.05) rotateY(10deg) translateZ(20px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    filter: brightness(1.1);
-    z-index: 10 !important;
-    animation-play-state: paused;
-}
-
-/* Refined Main Animation */
-@keyframes heroImageCycle {
-    0% {
-        opacity: 0;
-        transform: scale(0.95) rotateX(5deg);
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .hero-images-column {
+        perspective: none;
+        max-width: 100%; /* Full width on smaller screens */
+        height: auto; /* Allow height to adjust based on content */
+        border-radius: 10px; /* Rounded corners for aesthetics */
     }
-    5% {
-        opacity: 1;
-        transform: scale(1);
+
+    .hero-image {
+        position: relative; /* Stack images vertically on mobile */
+        width: 100%;
+        height: auto; /* Maintain aspect ratio */
+        margin: 10px 0;
+        animation: heroImageCycleMobile 24s infinite;
     }
-    15% {
-        opacity: 1;
-        transform: scale(1);
+
+    @keyframes heroImageCycleMobile {
+        0% { opacity: 0; transform: scale(0.95); }
+        5% { opacity: 1; transform: scale(1); }
+        15% { opacity: 1; transform: scale(1); }
+        20% { opacity: 0; transform: scale(0.95); }
+        100% { opacity: 0; }
     }
-    20% {
-        opacity: 0;
-        transform: scale(0.95) rotateX(-5deg);
-    }
-    100% {
-        opacity: 0;
+
+    .hero-image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     }
 }
+
+@media (max-width: 768px) {
+    .hero-images-column {
+        height: 60vh; /* Adjusted height for mobile */
+    }
+
+    .hero-image {
+        max-width: 100%; /* Ensure full width */
+        height: auto;
+    }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+    .hero-image {
+        animation: none !important;
+    }
+    .hero-image:nth-child(1) {
+        opacity: 1 !important;
+        transform: scale(1) !important;
+    }
+    .hero-image:not(:first-child) {
+        display: none;
+    }
+}
+
 
 /* Initial State */
 .hero-image:nth-child(1) {
