@@ -294,6 +294,8 @@ header nav {
     overflow: hidden; /* Prevent overflow */
     border-radius: 10px;
     padding: 30px;
+    border-radius: 6px #FFD700; /* Rounded corners for aesthetics */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 /* Hero Images */
