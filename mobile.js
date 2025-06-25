@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mobile Menu Toggle
     const mobileMenuToggle = document.getElementById('mobile-menu');
-    const navLinks = document.querySelector('header .nav-links');
+    const navLinks = document.querySelector('.nav-links');
 
     if (mobileMenuToggle && navLinks) {
         mobileMenuToggle.addEventListener('click', () => {
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Smooth scrolling for nav links & close mobile menu on click
-    document.querySelectorAll('header .nav-links a').forEach(anchor => {
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Active link highlighting on scroll
-    const sections = document.querySelectorAll('main section[id]');
-    const navLiAnchors = document.querySelectorAll('header .nav-links li a');
+    const sections = document.querySelectorAll('section[id]');
+    const navLiAnchors = document.querySelectorAll('.nav-links li a');
 
     function changeActiveLink() {
         let index = sections.length;
@@ -58,12 +58,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (sections[index]) {
             const activeSectionId = sections[index].id;
-            const correspondingLink = document.querySelector(`header .nav-links a[href="#${activeSectionId}"]`);
+            const correspondingLink = document.querySelector(`.nav-links a[href="#${activeSectionId}"]`);
             if (correspondingLink) {
                 correspondingLink.classList.add('active');
             }
         } else if (window.pageYOffset < (sections[0]?.offsetTop || 0) - headerHeight) {
-            const homeLink = document.querySelector('header .nav-links a[href="#hero"]');
+            const homeLink = document.querySelector('.nav-links a[href="#hero"]');
             if (homeLink) homeLink.classList.add('active');
         }
     }
@@ -71,6 +71,25 @@ document.addEventListener('DOMContentLoaded', function() {
     if (sections.length > 0 && navLiAnchors.length > 0) {
         changeActiveLink();
         window.addEventListener('scroll', changeActiveLink);
+    }
+
+    // Hero Image Rotation with Captions
+    const heroSlides = document.querySelectorAll('.hero-slide');
+    let currentSlide = 0;
+    const heroAnimationInterval = 5000; // 5 seconds per image
+
+    function showNextSlide() {
+        if (heroSlides.length === 0) return;
+        heroSlides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % heroSlides.length;
+        heroSlides[currentSlide].classList.add('active');
+    }
+
+    if (heroSlides.length > 0) {
+        heroSlides[0].classList.add('active');
+        if (heroSlides.length > 1) {
+            setInterval(showNextSlide, heroAnimationInterval);
+        }
     }
 
     // Set current year in footer

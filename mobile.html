@@ -85,286 +85,104 @@
 
     <!-- Mobile-Specific Styles -->
     <style>
-        /* Mobile-First Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        :root {
-            --secondary-color: #FFD700; /* Gold */
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f9f9f9;
-            font-size: 16px;
-        }
-
-        .container {
-            width: 100%;
-            padding: 0 15px;
-            margin: 0 auto;
-        }
-
-        h1 { font-size: 2em; }
-        h2 { font-size: 1.8em; text-align: center; margin-bottom: 30px; }
-        h3 { font-size: 1.4em; }
-        h4 { font-size: 1.1em; }
-
-        /* Header */
-        header {
-            background-color: #0A2463;
-            color: #fff;
-            padding: 10px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        header nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .logo img {
-            height: 40px;
-            width: auto;
-        }
-
-        .logo .logo-consultancy {
-            display: none;
-        }
-
-        .menu-toggle {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .menu-toggle span {
-            display: block;
-            width: 22px;
-            height: 2px;
-            background: #fff;
-            border-radius: 2px;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(4px, 4px);
-        }
-
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(4px, -4px);
-        }
-
-        .nav-links {
-            display: none;
-            flex-direction: column;
-            position: absolute;
-            top: 60px;
-            left: 0;
-            width: 100%;
-            background-color: #0A2463;
-            padding: 15px 0;
-        }
-
-        .nav-links.active {
-            display: flex;
-        }
-
-        .nav-links li {
-            margin: 10px 0;
-            text-align: center;
-        }
-
-        .nav-links a {
-            color: #fff;
-            font-weight: 500;
-            font-size: 1.1em;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: #FFD700;
-        }
-
-        /* Hero Section */
+        /* Override style.css for hero section */
         #hero {
-            background: linear-gradient(rgba(10, 36, 99, 0.8), rgba(10, 36, 99, 0.8));
-            color: #fff;
-            min-height: 50vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 80px 15px 30px;
-            background-color: #0A2463; /* Fallback */
+            min-height: 70vh;
+            padding: 80px 15px 20px;
+            top: 60px; /* Account for fixed header */
         }
 
         .hero-content.container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .hero-text-content {
-            text-align: center;
-        }
-
-        .hero-text h1 {
-            color: #fff;
-            margin-bottom: 0.5em;
-            font-size: 2em;
-            font-weight: bold;
-        }
-
-        .hero-text p {
-            font-size: 1.1em;
-            color: #eee;
-            margin-bottom: 20px;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: #FFD700;
-            color: #0A2463;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .cta-button:hover {
-            background-color: #e6c300;
-            transform: translateY(-2px);
-        }
-
-        /* About, Services, Team, Contact */
-        .section-padding {
-            padding: 40px 0;
-        }
-
-        .vision-mission, .contact-content {
-            display: flex;
             flex-direction: column;
             gap: 20px;
+            padding: 0;
+        }
+        .hero-image{
+            border-radius: 15px;
+            border-width: 20px;
+            border-color: #FFD700;
+        }
+        .hero-images-column {
+            height: 40vh;
+            max-width: 100%;
+            perspective: none;
+            padding: 0;
+            border-radius: 0;
         }
 
-        .services-grid, .team-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
-        .service-card, .team-card {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-            text-align: center;
+        .hero-slide.active {
+            opacity: 1;
         }
 
-        .service-icon {
-            font-size: 2em;
-            color: #0A2463;
-            margin-bottom: 10px;
-        }
-
-        .team-img-placeholder {
-            width: 100px;
-            height: 100px;
-            background-color: #ccc;
-            border-radius: 50%;
-            margin: 0 auto 10px;
-            overflow: hidden;
-        }
-
-        .team-image {
+        .hero-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
+            position: static;
+            margin: 0;
+            border-radius: 0;
         }
 
-        .contact-form {
+        .hero-caption {
+            position: relative;
+            background: rgba(255, 255, 255, 0.92);
+            color: #333;
+            border-left: 4px solid #FFD700;
+            padding: 12px 18px;
+            margin: 18px auto 0;
+            font-size: 14px;
+            font-style: italic;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            max-width: 320px;
+            text-align: left;
+        }
+
+        .hero-text-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            text-align: center;
             width: 100%;
         }
 
-        .form-group {
+        .hero-text h1 {
+            font-size: 2em;
+            color: #fff;
+        }
+
+        .hero-text p {
+            font-size: 16px;
+            color: #eee;
+            max-width: 300px;
             margin-bottom: 15px;
         }
 
-        .form-input, .form-textarea {
-            width: 100%;
-            padding: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            color: #fff;
-            font-size: 1em;
-        }
-
-        .form-input::placeholder, .form-textarea::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .form-input:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #FFD700;
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .map-container {
-            width: 100%;
-            height: 200px;
-            margin-top: 20px;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid #FFD700;
-        }
-
-        .responsive-map {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #071a48;
-            color: #ccc;
-            text-align: center;
-            padding: 20px 0;
+        .cta-button {
+            z-index: 2;
+            padding: 10px 20px;
             font-size: 0.9em;
+        }
+
+        /* Fix menu toggle */
+        .menu-toggle span {
+            margin: 4px 0;
+        }
+
+        /* Adjust contact form width */
+        .contact-form {
+            width: 100%;
         }
     </style>
 </head>
@@ -373,7 +191,7 @@
         <nav class="container">
             <div class="logo">
                 <img src="image-removebg-preview.png" alt="Great Insights Consultancy Logo" height="40">
-                Great Insights
+                Great Insights <span class="logo-consultancy">Consultancy</span>
             </div>
             <ul class="nav-links">
                 <li><a href="#hero">Home</a></li>
@@ -394,6 +212,26 @@
         <!-- Hero Section -->
         <section id="hero">
             <div class="hero-content container">
+                <div class="hero-images-column">
+                    <div class="hero-slide active">
+                        <img src="hero10.jpeg" alt="Professional portrait 1" class="hero-image" loading="lazy">
+                        <div class="hero-caption">
+                            Mr. Iman representing Great Insights Consultancy during a seminar for CDF managers in Garissa County, focusing on integrating KNBS statistics into constituency budgeting.
+                        </div>
+                    </div>
+                    <div class="hero-slide">
+                        <img src="hero2.jpeg" alt="Professional portrait 2" class="hero-image" loading="lazy">
+                        <div class="hero-caption">
+                            Empowering businesses with innovative strategies for sustainable growth in Nairobi.
+                        </div>
+                    </div>
+                    <div class="hero-slide">
+                        <img src="hero3.jpeg" alt="Professional portrait 3" class="hero-image" loading="lazy">
+                        <div class="hero-caption">
+                            Delivering expert consultancy to drive success across Kenyan industries.
+                        </div>
+                    </div>
+                </div>
                 <div class="hero-text-content">
                     <div class="hero-text">
                         <h1>Empowering Your Business</h1>
@@ -466,27 +304,6 @@
                     </div>
                     <h3>Ms. Amina Aden Maalim</h3>
                     <p>Sustainable Development</p>
-                </div>
-                    <div class="team-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="team-img-placeholder">
-                        <img src="image.png" alt="Ahmed sigat" class="team-image">
-                    </div>
-                    <h3>Ahmed sigat</h3>
-                    <p>Tot Consultant, Security & Intelligence Specialist</p>
-                </div>
-                                 <div class="team-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="team-img-placeholder">
-                        <img src="WhatsApp Image 2025-06-02 at 21.28.05.jpeg" alt="Stephen Ngure wanjama" class="team-image">
-                    </div>
-                    <h3>Stephen Ngure wanjama</h3>
-                    <p>Counselling Psychology, Therapist, Administrator</p>
-                </div>
-                 <div class="team-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="team-img-placeholder">
-                        <img src="WhatsApp Image 2025-06-02 at 22.12.30.jpeg" alt="Mohammed Iman" class="team-image">
-                    </div>
-                    <h3>Mohammed Iman</h3>
-                    <p>Economist, Data Scientist, Strategic Management</p>
                 </div>
             </div>
         </section>
