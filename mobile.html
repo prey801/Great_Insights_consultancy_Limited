@@ -210,37 +210,96 @@
 
     <main>
         <!-- Hero Section -->
-        <section id="hero">
-            <div class="hero-content container">
-                <div class="hero-images-column">
-                    <div class="hero-slide active">
-                        <img src="hero10.jpeg" alt="Professional portrait 1" class="hero-image" loading="lazy">
-                        <div class="hero-caption">
-                            Mr. Iman representing Great Insights Consultancy during a seminar for CDF managers in Garissa County, focusing on integrating KNBS statistics into constituency budgeting.
-                        </div>
-                    </div>
-                    <div class="hero-slide">
-                        <img src="hero 5.jpeg" alt="Professional portrait 2" class="hero-image" loading="lazy">
-                        <div class="hero-caption">
-                            Empowering businesses with innovative strategies for sustainable growth in Nairobi.
-                        </div>
-                    </div>
-                    <div class="hero-slide">
-                        <img src="hero4.jpeg" alt="Professional portrait 3" class="hero-image" loading="lazy">
-                        <div class="hero-caption">
-                            Delivering expert consultancy to drive success across Kenyan industries.
-                        </div>
-                    </div>
+<section id="hero">
+    <div class="hero-content container">
+        <div class="hero-images-column">
+            <div class="hero-slide active">
+                <img src="hreo-image 1.jpeg" alt="Professional portrait 1" class="hero-image" loading="lazy">
+            </div>
+            <div class="hero-slide">
+                <img src="hero9.jpeg" alt="Professional portrait 2" class="hero-image" loading="lazy">
+            </div>
+            <div class="hero-slide">
+                <img src="WhatsApp Image 2025-06-02 at 23.09.03.jpeg" alt="Professional portrait 3" class="hero-image" loading="lazy">
+            </div>
+            <!-- Captions moved outside hero-slide to avoid opacity transitions -->
+            <div id="hero-captions">
+                <div class="hero-caption">
+                    Mr. Iman representing Great Insights Consultancy during a seminar for CDF managers in Garissa County, focusing on integrating KNBS statistics into constituency budgeting.
                 </div>
-                <div class="hero-text-content">
-                    <div class="hero-text">
-                        <h1>Empowering Your Business</h1>
-                        <p>Strategic solutions for growth and innovation in Kenya.</p>
-                        <a href="#contact" class="cta-button">Get In Touch</a>
-                    </div>
+                <div class="hero-caption">
+                    Empowering businesses with innovative strategies for sustainable growth in Nairobi.
+                </div>
+                <div class="hero-caption">
+                    Delivering expert consultancy to drive success across Kenyan industries.
                 </div>
             </div>
-        </section>
+            <style>
+            #hero-captions {
+                border-left: 4px #FFD700;
+                padding-right: 6px;
+                position: absolute;
+                left: 60%;
+                right: -40%;
+                bottom: -20px;;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                pointer-events: none;
+            }
+            .hero-caption {
+                width: 110%;
+                position: relative;
+                background: rgba(255,255,255,0.95);
+                color: #333;
+                border-left: 4px solid #FFD700;
+                padding: 12px 18px;
+                margin: 10px auto 18px;
+                font-size: 0.30rem;
+                font-style: italic;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                max-width: 420px;
+                text-align: left;
+                z-index: 10;
+                opacity: 0;
+                border: 1px solid rgb(224, 228, 2);
+                pointer-events: auto;
+                transition: opacity 0.5s;
+                display: block;
+                /* Hide all by default, show via animation */
+                position: absolute;
+                left: 0; right: 0; bottom: 0;
+                margin-left: auto; margin-right: auto;
+            }
+            .hero-caption:nth-child(1) {
+                animation: caption-fade 12s infinite;
+                animation-delay: 0s;
+            }
+            .hero-caption:nth-child(2) {
+                animation: caption-fade 12s infinite;
+                animation-delay: 4s;
+            }
+            .hero-caption:nth-child(3) {
+                animation: caption-fade 12s infinite;
+                animation-delay: 8s;
+            }
+            @keyframes caption-fade {
+                0% { opacity: 1; }
+                30% { opacity: 1; }
+                33.33% { opacity: 0; }
+                100% { opacity: 0; }
+            }
+            </style>
+        </div>
+        <div class="hero-text-content">
+            <div class="hero-text">
+                <h1>Empowering Your Business</h1>
+                <p>Strategic solutions for growth and innovation in Kenya.</p>
+                <a href="#services" class="cta-button">Discover Our Solutions</a>
+            </div>
+        </div>
+    </div>
+</section>
 
         <!-- About Us Section -->
         <section id="about" class="container section-padding" data-aos="fade-up">
