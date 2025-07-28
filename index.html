@@ -49,6 +49,12 @@
             background: #eee;
             margin: 1.5rem 0;
         }
+        .timer {
+            color: #e74c3c;
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin: 1rem 0;
+        }
     </style>
 </head>
 <body>
@@ -56,10 +62,40 @@
         <h1 style="color: red;">Website Currently Unavailable</h1>
         <p>Due to pending payment, this website is temporarily unavailable.</p>
         <div class="divider"></div>
+        <p>This website will be fully taken down in:</p>
+        <p class="timer" id="countdown"></p>
+        <div class="divider"></div>
         <p>For any inquiries, please contact me at:</p>
         <p><a href="mailto:musyokibrian047@gmail.com" class="email">musyokibrian047@gmail.com</a></p>
         <div class="divider"></div>
         <p>Thank you for your understanding.</p>
     </div>
+
+    <script>
+        // Set the date for one week from now (August 4, 2025)
+        const countdownDate = new Date("August 4, 2025 19:53:00").getTime();
+
+        // Update the countdown every second
+        const countdownFunction = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            // Calculate days, hours, minutes, and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the countdown
+            document.getElementById("countdown").innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            // If the countdown is finished, display a message
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("countdown").innerHTML = "Website has been taken down.";
+            }
+        }, 1000);
+    </script>
 </body>
-</html></div>
+</html>
